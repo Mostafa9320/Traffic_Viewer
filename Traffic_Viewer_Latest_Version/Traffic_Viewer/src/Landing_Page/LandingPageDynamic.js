@@ -67,12 +67,12 @@ upIcon.onclick = function () {
 
 window.onload = function () {
     const loadingScreen = document.getElementById("loading");
-
     setTimeout(() => {
         loadingScreen.style.opacity = "0";
         loadingScreen.style.transition = "opacity 0.5s ease";
         setTimeout(() => {
             loadingScreen.style.display = "none";
+            document.body.style.overflow = "auto";
         }, 500);
     }, 5000);
 };

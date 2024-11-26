@@ -1114,13 +1114,13 @@ body {
   font-family: "Zain", serif;
   font-weight: 700;
   font-style: normal;
-  font-size: 25px;
+  font-size: 20px;
   border: none;
   background-color: rgb(10, 132, 181);
   color: white;
   box-shadow: 0 0 15px rgb(0, 183, 255);
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   border-radius: 5px;
   display: flex;
   justify-content: center;

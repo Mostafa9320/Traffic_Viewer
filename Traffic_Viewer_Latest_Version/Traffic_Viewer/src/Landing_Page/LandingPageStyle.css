@@ -791,15 +791,23 @@ body {
   cursor: pointer;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .members_Slider {
-    grid-auto-columns: calc((100% / 2) - 30px);
+    grid-auto-columns: calc((100% / 2) - 20px);
+  }
+
+  #cards_wrapper {
+    width: 90%;
   }
 }
 
 @media (max-width: 600px) {
   .members_Slider {
     grid-auto-columns: calc(100%);
+  }
+
+  #cards_wrapper {
+    width: 70%;
   }
 }
 
@@ -1107,7 +1115,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 70px;
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
 .member_btn {

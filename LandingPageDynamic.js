@@ -136,3 +136,58 @@ cards_wrapper.addEventListener("mouseleave", autoScroll);
 NextMember.addEventListener("click", moveToNextCard);
 PrevMember.addEventListener("click", moveToPrevCard);
 document.addEventListener("mouseup", dragStop);
+
+// For Fun
+
+document.querySelector(".title button").addEventListener("click", () => {
+  let reply = confirm("Would you like to try Traffic Viewer ?");
+  if (reply) {
+    alert(
+      "انا عايزك تقنعني .. ازاي يصاحبي ؟, انت اي حد يقولك حاجه تصدقها كدا ؟"
+    );
+  } else {
+    alert("جدع, روح بقا شوف شغلك يعم الهاردوير");
+  }
+});
+
+document
+  .querySelectorAll(".card button")
+  .forEach((btn) =>
+    btn.addEventListener(
+      "click",
+      () =>
+        (window.location.href = "https://www.youtube.com/shorts/L771r__CCJ4")
+    )
+  );
+
+let list = document.querySelector(".custom-select2");
+const submitBtn = document.querySelector(".ratingList label button");
+const tempFunc = () => {
+  if (list.value == "4" || list.value == "5") {
+    submitBtn.style.visibility = "visible";
+    list.removeEventListener("change", tempFunc);
+  }
+};
+submitBtn.addEventListener("click", () => {
+  switch (list.value) {
+    case "1":
+      alert("طب وجاي على نفسك ليه كدا !!");
+      break;
+    case "2":
+      alert("كلك ذوق والله");
+      break;
+    case "3":
+      alert("برضو ؟ طب وريني هتعمل Submit ازاي");
+      submitBtn.style.visibility = "hidden";
+      list.addEventListener("change", tempFunc);
+      break;
+    case "4":
+      alert("تمام .. دي حرية رأي مقدرش اتكلم");
+      break;
+    case "5":
+      alert("Your rating has been sent successfully!");
+      break;
+    default:
+      alert("اختار نجوم يصاحبي بعد اذنك");
+  }
+});

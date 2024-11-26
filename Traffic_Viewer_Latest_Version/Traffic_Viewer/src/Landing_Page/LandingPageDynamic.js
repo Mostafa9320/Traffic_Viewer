@@ -3,11 +3,11 @@ const navbar = document.getElementById("mobile_navbar");
 const backToTop = document.getElementById("back_to_top");
 const iconPath = document.querySelector("#hamburger-icon svg path");
 const upIcon = document.querySelector(".to_top");
-const members_container = document.querySelector(".members_Slider");
-const members = members_container.children;
+const members_Slider = document.querySelector(".members_Slider");
+const memberWidth = document.querySelector(".card").offsetWidth;
+const cards_wrapper = document.querySelector("#cards_wrapper");
 const NextMember = document.getElementById("next");
 const PrevMember = document.getElementById("prev");
-let currMemberCard = 0;
 let isOpen = false;
 const hamburgerPath =
   "M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z";
@@ -82,24 +82,57 @@ window.onload = function () {
   }, 1000);
 };
 
-members[currMemberCard].id = "selected_member";
-let memberWidth = members[currMemberCard].offsetWidth;
-let sliderOffset;
+let isDragging = false,
+  startX,
+  startScrollLeft,
+  timeoutId;
 
-function moveToNextMember() {
-  members[currMemberCard].id = "selected_member";
-  const slideWidth = memberWidth + 20;
-  const sliderOffset = -(currMemberCard - 0.5) * slideWidth;
-  members_container.style.transform = `translateX(${sliderOffset}px)`;
-}
+const dragStart = (e) => {
+  isDragging = true;
+  members_Slider.classList.add("dragging");
+  startX = e.pageX;
+  startScrollLeft = members_Slider.scrollLeft;
+};
 
-NextMember.addEventListener("click", () => {
-  members[currMemberCard].id = "";
-  currMemberCard = (currMemberCard + 1) % 8;
-  moveToNextMember();
-});
-PrevMember.addEventListener("click", () => {
-  members[currMemberCard].id = "";
-  currMemberCard = currMemberCard - 1 < 0 ? 7 : currMemberCard - 1;
-  moveToNextMember();
-});
+const dragStop = () => {
+  isDragging = false;
+  members_Slider.classList.remove("dragging");
+};
+
+const dragging = (e) => {
+  if (!isDragging) return;
+  const newScrollLeft = startScrollLeft - (e.pageX - startX);
+
+  if (
+    newScrollLeft <= 0 ||
+    newScrollLeft >= members_Slider.scrollWidth - members_Slider.offsetWidth
+  ) {
+    isDragging = false;
+    return;
+  }
+
+  members_Slider.scrollLeft = newScrollLeft;
+};
+
+const autoScroll = () => {
+  const totalCardWidth = members_Slider.scrollWidth;
+  const maxScrollLeft = totalCardWidth - members_Slider.offsetWidth;
+
+  if (members_Slider.scrollLeft >= maxScrollLeft) return;
+
+  timeoutId = setTimeout(
+    () => (members_Slider.scrollLeft += memberWidth),
+    3000
+  );
+};
+
+const moveToNextCard = () => (members_Slider.scrollLeft += memberWidth);
+const moveToPrevCard = () => (members_Slider.scrollLeft += -memberWidth);
+
+members_Slider.addEventListener("mousedown", dragStart);
+members_Slider.addEventListener("mousemove", dragging);
+cards_wrapper.addEventListener("mouseenter", () => clearTimeout(timeoutId));
+cards_wrapper.addEventListener("mouseleave", autoScroll);
+NextMember.addEventListener("click", moveToNextCard);
+PrevMember.addEventListener("click", moveToPrevCard);
+document.addEventListener("mouseup", dragStop);

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get Started</title>
+    <link
+      rel="shortcut icon"
+      type="x-icon"
+      sizes="16x16 32x32 64x64"
+      href="../assets/images/icon_browser_image-removebg-preview.png"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="loading_screen" id="loading">
+      <div class="loading">
+        <div class="red_sign"></div>
+        <div class="yellow_sign"></div>
+        <div class="green_sign"></div>
+      </div>
+    </div>
+
+    <form>
+      <div id="userSelector">
+        <label for="user_type">You are: </label>
+        <select id="user_type" name="type">
+          <option value="normal" selected>Normal User</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <div id="user_fields">
+        <label for="normalUserName">Name: </label>
+        <input
+          type="text"
+          id="normalUserName"
+          pattern="[A-Za-z]{5,}"
+          title="5 letters at least"
+          required
+        />
+      </div>
+      <div id="admin_fields">
+        <div id="admin_user">
+          <label for="adminUserName">Identity/UserName: </label>
+          <input
+            type="text"
+            id="adminUserName"
+            pattern="[A-Za-z]{5,}"
+            title="5 letters at least"
+          />
+        </div>
+        <div id="admin_password">
+          <label for="secretPass">Password: </label>
+          <input type="password" id="secretPass" />
+        </div>
+      </div>
+      <input type="submit" value="Enter" id="enterBtn" />
+    </form>
+    <script src="script.js"></script>
+  </body>
+</html>

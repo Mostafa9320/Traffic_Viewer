@@ -13,6 +13,9 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         /* أنماط الحاوية */
@@ -23,7 +26,6 @@
             justify-content: center;
             align-items: center;
             position: relative;
-            overflow: hidden;
         }
 
         .svg-container {
@@ -41,23 +43,23 @@
         }
     </style>
 </head>
-<body style="margin: 0; padding: 0; overflow: hidden;">
+<body style="margin: 0; padding: 0;">
     <div class="container">
         <div class="svg-container">
-            <svg width="100vw" height="100vh" viewBox="0 0 4200 2970" preserveAspectRatio="none">
+            <svg  viewBox="0 0 11000 14000" >
                 <!-- الطرق -->
                 <g id="roads">
                     <!-- الطريق الرأسي -->
-                    <path d="M1850 -200 L2350 -200 L2350 3170 L1850 3170 Z" fill="#1aa297"/>
+                    <path d="M4250 -200 L6750 -200 L6750 14000 L4250 14000 Z" fill="#2f3542"/>
                     
                     <!-- الطريق الأفقي -->
-                    <path d="M-200 1300 L4400 1300 L4400 1900 L-200 1900 Z" fill="#1aa297"/>
+                    <path d="M-11000 5750 L18000 5750 L18000 8250 L-11000 8250 Z" fill="#2f3542"/>
                     
                     <!-- خطوط الطريق الرأسي -->
-                    <path d="M2100 -100 L2100 1450 M2100 1850 L2100 3070" stroke="white" stroke-width="18" stroke-dasharray="60 45"/>
+                    <path d="M5500 -100 L5500 5750 M5500 8250 L5500 18070" stroke="white" stroke-width="30" stroke-dasharray="150 100"/>
                     
                     <!-- خطوط الطريق الأفقي -->
-                    <path d="M-100 1600 L1900 1600 M2300 1600 L4300 1600" stroke="white" stroke-width="18" stroke-dasharray="61 45"/>
+                    <path d="M-9000 7000 L4150 7000 M6800 7000 L17300 7000" stroke="white" stroke-width="30" stroke-dasharray="150 100"/>
                 </g>
             </svg>
     </div>

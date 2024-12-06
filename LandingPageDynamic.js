@@ -9,6 +9,7 @@ const cards_wrapper = document.querySelector("#cards_wrapper");
 const NextMember = document.getElementById("next");
 const PrevMember = document.getElementById("prev");
 let isOpen = false;
+const getStarted = document.getElementById("getStarted");
 const hamburgerPath =
   "M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z";
 const closePath =
@@ -139,16 +140,16 @@ document.addEventListener("mouseup", dragStop);
 
 // For Fun
 
-document.querySelector(".title button").addEventListener("click", () => {
-  let reply = confirm("Would you like to try Traffic Viewer ?");
-  if (reply) {
-    alert(
-      "انا عايزك تقنعني .. ازاي يصاحبي ؟, انت اي حد يقولك حاجه تصدقها كدا ؟"
-    );
-  } else {
-    alert("جدع, روح بقا شوف شغلك يعم الهاردوير");
-  }
-});
+// document.querySelector(".title button").addEventListener("click", () => {
+//   let reply = confirm("Would you like to try Traffic Viewer ?");
+//   if (reply) {
+//     alert(
+//       "انا عايزك تقنعني .. ازاي يصاحبي ؟, انت اي حد يقولك حاجه تصدقها كدا ؟"
+//     );
+//   } else {
+//     alert("جدع, روح بقا شوف شغلك يعم الهاردوير");
+//   }
+// });
 
 document
   .querySelectorAll(".card button")
@@ -191,3 +192,5 @@ submitBtn.addEventListener("click", () => {
       alert("اختار نجوم يصاحبي بعد اذنك");
   }
 });
+
+getStarted.onclick = () => (window.location.href = "./start");

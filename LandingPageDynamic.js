@@ -267,5 +267,3 @@ submitButton.addEventListener("click", () => {
 });
 
 getStarted.onclick = () => (window.location.href = "./start");
-
-getStarted.onclick = () => (window.location.href = "/start");

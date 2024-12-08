@@ -28,13 +28,13 @@ dropDown.onchange = checkUserType;
 form.onsubmit = (e) => {
   e.preventDefault();
   if (form.checkValidity()) {
-    if (dropDown.value == "normal") window.location.href = "../svg_vs_proj";
+    if (dropDown.value == "normal") window.location.href = "/live";
     else {
       let username = adminUserName.value;
       let secret = `${username.charCodeAt(
         username.length - 1
       )}${username.charCodeAt(username[0])}`;
-      if (secretPass.value === secret) window.location.href = "../svg_vs_proj";
+      if (secretPass.value === secret) window.location.href = "/live";
       else alert("Wrong Password!" + ` \n\nRight Password: ${secret}`);
     }
   } else {

@@ -8,9 +8,11 @@
       rel="shortcut icon"
       type="x-icon"
       sizes="16x16 32x32 64x64"
-      href="../assets/images/icon_browser_image-removebg-preview.png"
+      href="/assets/images/favicon.webp"
     />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="/start/styles.css" />
+    <link href="/online/fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/online/fa.css" />
   </head>
   <body>
     <div class="loading_screen" id="loading">
@@ -21,41 +23,252 @@
       </div>
     </div>
 
+    <div id="toast-container"></div>
+
     <form>
       <div id="userSelector">
-        <label for="user_type">You are: </label>
         <select id="user_type" name="type">
           <option value="normal" selected>Normal User</option>
           <option value="admin">Admin</option>
         </select>
       </div>
       <div id="user_fields">
-        <label for="normalUserName">Name: </label>
-        <input
-          type="text"
-          id="normalUserName"
-          pattern="[A-Za-z]{5,}"
-          title="5 letters at least"
-          required
-        />
+        <div class="input-group">
+          <input
+            type="text"
+            id="normalUserName"
+            pattern="[A-Za-z]{5,}"
+            title="5 letters at least"
+            required
+            placeholder=" "
+          />
+          <label for="normalUserName"><i class="fas fa-user"></i> Name</label>
+        </div>
       </div>
-      <div id="admin_fields">
-        <div id="admin_user">
-          <label for="adminUserName">Identity/UserName: </label>
+      <div id="admin_fields" style="display: none">
+        <div class="input-group">
           <input
             type="text"
             id="adminUserName"
-            pattern="[A-Za-z]{5,}"
+            pattern=".{5,}"
             title="5 letters at least"
+            placeholder=" "
           />
+          <label for="adminUserName"
+            ><i class="fas fa-user"></i> UserName</label
+          >
         </div>
-        <div id="admin_password">
-          <label for="secretPass">Password: </label>
-          <input type="password" id="secretPass" />
+        <div class="input-group">
+          <input type="password" id="secretPass" placeholder=" " />
+          <label for="secretPass"><i class="fas fa-lock"></i> Password</label>
+          <button type="button" class="toggle-password" id="togglePassword">
+            <i class="fas fa-eye"></i>
+          </button>
+          <button type="button" class="info-button" id="passwordInfo">
+            <i class="fas fa-info-circle"></i>
+          </button>
+        </div>
+        <!-- Modal للمعلومات -->
+        <div id="infoModal" class="modal">
+          <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><i class="fas fa-key"></i> Password Generation Guide</h2>
+            <div class="password-info">
+              <p>
+                Your password is automatically generated based on your username
+                using the following format:
+              </p>
+              <div class="password-format">
+                <code>[First ASCII][Length][Last ASCII][Sum]</code>
+              </div>
+              <div class="example">
+                <h3>Example:</h3>
+                <p>For username "admin":</p>
+                <ul>
+                  <li><strong>First ASCII:</strong> 'a' = 97</li>
+                  <li><strong>Length:</strong> 5 characters</li>
+                  <li><strong>Last ASCII:</strong> 'n' = 110</li>
+                  <li><strong>Sum:</strong> (97+100+109+105+110) % 100 = 21</li>
+                </ul>
+                <p class="result">Final Password: <strong>97511021</strong></p>
+              </div>
+              <div class="ascii-table">
+                <h3>ASCII Reference Table</h3>
+                <div class="table-container">
+                  <table>
+                    <tr>
+                      <th>Letter</th>
+                      <th>ASCII</th>
+                      <th>Letter</th>
+                      <th>ASCII</th>
+                      <th>Letter</th>
+                      <th>ASCII</th>
+                      <th>Letter</th>
+                      <th>ASCII</th>
+                    </tr>
+                    <tr>
+                      <td>a</td>
+                      <td>97</td>
+                      <td>g</td>
+                      <td>103</td>
+                      <td>m</td>
+                      <td>109</td>
+                      <td>s</td>
+                      <td>115</td>
+                    </tr>
+                    <tr>
+                      <td>b</td>
+                      <td>98</td>
+                      <td>h</td>
+                      <td>104</td>
+                      <td>n</td>
+                      <td>110</td>
+                      <td>t</td>
+                      <td>116</td>
+                    </tr>
+                    <tr>
+                      <td>c</td>
+                      <td>99</td>
+                      <td>i</td>
+                      <td>105</td>
+                      <td>o</td>
+                      <td>111</td>
+                      <td>u</td>
+                      <td>117</td>
+                    </tr>
+                    <tr>
+                      <td>d</td>
+                      <td>100</td>
+                      <td>j</td>
+                      <td>106</td>
+                      <td>p</td>
+                      <td>112</td>
+                      <td>v</td>
+                      <td>118</td>
+                    </tr>
+                    <tr>
+                      <td>e</td>
+                      <td>101</td>
+                      <td>k</td>
+                      <td>107</td>
+                      <td>q</td>
+                      <td>113</td>
+                      <td>w</td>
+                      <td>119</td>
+                    </tr>
+                    <tr>
+                      <td>f</td>
+                      <td>102</td>
+                      <td>l</td>
+                      <td>108</td>
+                      <td>r</td>
+                      <td>114</td>
+                      <td>x</td>
+                      <td>120</td>
+                    </tr>
+                    <tr>
+                      <td>y</td>
+                      <td>121</td>
+                      <td>z</td>
+                      <td>122</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td
+                        colspan="8"
+                        style="background: rgba(79, 209, 197, 0.1)"
+                      >
+                        <strong>Uppercase Letters</strong>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>A</td>
+                      <td>65</td>
+                      <td>G</td>
+                      <td>71</td>
+                      <td>M</td>
+                      <td>77</td>
+                      <td>S</td>
+                      <td>83</td>
+                    </tr>
+                    <tr>
+                      <td>B</td>
+                      <td>66</td>
+                      <td>H</td>
+                      <td>72</td>
+                      <td>N</td>
+                      <td>78</td>
+                      <td>T</td>
+                      <td>84</td>
+                    </tr>
+                    <tr>
+                      <td>C</td>
+                      <td>67</td>
+                      <td>I</td>
+                      <td>73</td>
+                      <td>O</td>
+                      <td>79</td>
+                      <td>U</td>
+                      <td>85</td>
+                    </tr>
+                    <tr>
+                      <td>D</td>
+                      <td>68</td>
+                      <td>J</td>
+                      <td>74</td>
+                      <td>P</td>
+                      <td>80</td>
+                      <td>V</td>
+                      <td>86</td>
+                    </tr>
+                    <tr>
+                      <td>E</td>
+                      <td>69</td>
+                      <td>K</td>
+                      <td>75</td>
+                      <td>Q</td>
+                      <td>81</td>
+                      <td>W</td>
+                      <td>87</td>
+                    </tr>
+                    <tr>
+                      <td>F</td>
+                      <td>70</td>
+                      <td>L</td>
+                      <td>76</td>
+                      <td>R</td>
+                      <td>82</td>
+                      <td>X</td>
+                      <td>88</td>
+                    </tr>
+                    <tr>
+                      <td>Y</td>
+                      <td>89</td>
+                      <td>Z</td>
+                      <td>90</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="remember-forgot">
+          <div class="remember-me">
+            <input type="checkbox" id="remember" />
+            <label for="remember">Remember me</label>
+          </div>
         </div>
       </div>
       <input type="submit" value="Enter" id="enterBtn" />
     </form>
-    <script src="script.js"></script>
+    <script src="/start/script.js"></script>
   </body>
 </html>

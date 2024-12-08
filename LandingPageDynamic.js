@@ -151,46 +151,121 @@ document.addEventListener("mouseup", dragStop);
 //   }
 // });
 
-document
-  .querySelectorAll(".card button")
-  .forEach((btn) =>
-    btn.addEventListener(
-      "click",
-      () =>
-        (window.location.href = "https://www.youtube.com/shorts/L771r__CCJ4")
-    )
-  );
+// document
+//   .querySelectorAll(".card button")
+//   .forEach((btn) =>
+//     btn.addEventListener(
+//       "click",
+//       () =>
+//         (window.location.href = "https://www.youtube.com/shorts/L771r__CCJ4")
+//     )
+//   );
 
-let list = document.querySelector(".custom-select2");
-const submitBtn = document.querySelector(".ratingList label button");
-const tempFunc = () => {
-  if (list.value == "4" || list.value == "5") {
-    submitBtn.style.visibility = "visible";
-    list.removeEventListener("change", tempFunc);
+// let list = document.querySelector(".custom-select2");
+// const submitBtn = document.querySelector(".ratingList label button");
+// const tempFunc = () => {
+//   if (list.value == "4" || list.value == "5") {
+//     submitBtn.style.visibility = "visible";
+//     list.removeEventListener("change", tempFunc);
+//   }
+// };
+// submitBtn.addEventListener("click", () => {
+//   switch (list.value) {
+//     case "1":
+//       alert("طب وجاي على نفسك ليه كدا !!");
+//       break;
+//     case "2":
+//       alert("كلك ذوق والله");
+//       break;
+//     case "3":
+//       alert("برضو ؟ طب وريني هتعمل Submit ازاي");
+//       submitBtn.style.visibility = "hidden";
+//       list.addEventListener("change", tempFunc);
+//       break;
+//     case "4":
+//       alert("تمام .. دي حرية رأي مقدرش اتكلم");
+//       break;
+//     case "5":
+//       alert("Your rating has been sent successfully!");
+//       break;
+//     default:
+//       alert("اختار نجوم يصاحبي بعد اذنك");
+//   }
+// });
+// Theme Toggle
+const themeToggleBtn = document.getElementById("theme-toggle-btn");
+const body = document.body;
+
+// Check for saved theme preference
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "dark") {
+  body.classList.add("dark-mode");
+}
+
+// Rating System
+let ratings = JSON.parse(localStorage.getItem("trafficViewerRatings")) || [];
+const ratingSelect = document.querySelector(".custom-select2");
+const submitButton = document.querySelector(".ratingList button");
+const ratingDisplay = document.querySelector(".ratingAverage h1");
+
+// Update initial display with animation
+function updateRatingDisplay(newRating) {
+  let currentRating = parseFloat(ratingDisplay.textContent);
+  if (isNaN(currentRating)) currentRating = 0;
+
+  const steps = 20;
+  const increment = (newRating - currentRating) / steps;
+  let step = 0;
+
+  const animate = () => {
+    if (step < steps) {
+      currentRating += increment;
+      ratingDisplay.textContent = currentRating.toFixed(1);
+      step++;
+      requestAnimationFrame(animate);
+    } else {
+      ratingDisplay.textContent = newRating.toFixed(1);
+    }
+  };
+
+  animate();
+}
+
+// Initialize rating display
+if (ratings.length > 0) {
+  const average = ratings.reduce((a, b) => a + b) / ratings.length;
+  updateRatingDisplay(average);
+}
+
+// Handle rating submission
+submitButton.addEventListener("click", () => {
+  const selectedRating = parseInt(ratingSelect.value);
+  if (!selectedRating) {
+    submitButton.style.backgroundColor = "#dc3545";
+    submitButton.textContent = "Please Select a Rating";
+    setTimeout(() => {
+      submitButton.style.backgroundColor = "#007bff";
+      submitButton.textContent = "Submit";
+    }, 2000);
+    return;
   }
-};
-submitBtn.addEventListener("click", () => {
-  switch (list.value) {
-    case "1":
-      alert("طب وجاي على نفسك ليه كدا !!");
-      break;
-    case "2":
-      alert("كلك ذوق والله");
-      break;
-    case "3":
-      alert("برضو ؟ طب وريني هتعمل Submit ازاي");
-      submitBtn.style.visibility = "hidden";
-      list.addEventListener("change", tempFunc);
-      break;
-    case "4":
-      alert("تمام .. دي حرية رأي مقدرش اتكلم");
-      break;
-    case "5":
-      alert("Your rating has been sent successfully!");
-      break;
-    default:
-      alert("اختار نجوم يصاحبي بعد اذنك");
-  }
+
+  ratings.push(selectedRating);
+  localStorage.setItem("trafficViewerRatings", JSON.stringify(ratings));
+
+  const average = ratings.reduce((a, b) => a + b) / ratings.length;
+  updateRatingDisplay(average);
+  ratingSelect.selectedIndex = 0;
+
+  // Show success feedback
+  submitButton.textContent = "Thank You For Rating !";
+  submitButton.style.backgroundColor = "#4CAF50";
+  setTimeout(() => {
+    submitButton.textContent = "Submit";
+    submitButton.style.backgroundColor = "#007bff";
+  }, 2000);
 });
 
 getStarted.onclick = () => (window.location.href = "./start");
+
+getStarted.onclick = () => (window.location.href = "/start");

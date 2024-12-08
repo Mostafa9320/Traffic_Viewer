@@ -9,7 +9,7 @@
       rel="shortcut icon"
       type="x-icon"
       sizes="16x16 32x32 64x64"
-      href="/assets/images/favicon.webp"
+      href="../assets/images/favicon.webp"
     />
     <style>
       /* أنماط عامة */
@@ -64,7 +64,7 @@
         overflow-y: auto;
       }
 
-      .control-panel.show {
+      .control-panel.open {
         top: 0;
       }
 
@@ -74,342 +74,84 @@
         margin-bottom: 20px;
       }
 
-      .toggle-panel {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1001;
-        padding: 10px 20px;
-        background-color: #3498db;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
+      .controls-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 20px;
       }
 
-      .panel-header button {
-        padding: 8px 15px;
-        background-color: #e74c3c;
-        color: white;
+      .control-section {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+      }
+
+      .control-section h3 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        color: #2c3e50;
+      }
+
+      .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .control-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .control-btn {
+        padding: 8px 16px;
         border: none;
         border-radius: 4px;
+        background: #3498db;
+        color: white;
         cursor: pointer;
+        transition: background 0.3s;
       }
 
-      /* تنسيق قسم الإحصائيات */
-      .stats-section {
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
+      .control-btn:hover {
+        background: #2980b9;
       }
 
-      .stats-section h3 {
-        color: #3498db;
-        margin-bottom: 15px;
-        font-size: 18px;
-        border-bottom: 2px solid rgba(52, 152, 219, 0.2);
-        padding-bottom: 10px;
-      }
-
-      .stats-panel {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-        margin-bottom: 20px;
-      }
-
-      .stat-card {
-        background: #f8f9fa;
-        padding: 20px;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        border: 1px solid #eee;
-      }
-
-      .stat-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      }
-
-      .stat-card h4 {
-        margin: 0;
-        color: #7f8c8d;
-        font-size: 14px;
-        margin-bottom: 10px;
-      }
-
-      .stat-value {
-        font-size: 24px;
-        font-weight: bold;
-        color: #2c3e50;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .stat-icon {
-        width: 40px;
-        height: 40px;
-        background: #3498db;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 20px;
-      }
-
-      .stat-trend {
-        font-size: 14px;
-        color: #27ae60;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        margin-top: 5px;
-      }
-
-      .trend-down {
-        color: #e74c3c;
-      }
-
-      /* تنسيق قسم مستويات الازدحام */
-      .congestion-section {
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-      }
-
-      .congestion-section h3 {
-        color: #2ecc71;
-        margin-bottom: 15px;
-        font-size: 18px;
-        border-bottom: 2px solid rgba(46, 204, 113, 0.2);
-        padding-bottom: 10px;
-      }
-
-      .congestion-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-      }
-
-      .congestion-card {
-        background: #f8f9fa;
-        padding: 15px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        border: 1px solid #eee;
-        transition: all 0.3s ease;
-      }
-
-      .congestion-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      }
-
-      .direction-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 20px;
-      }
-
-      .direction-north {
-        background: #3498db;
-      }
-      .direction-south {
-        background: #e74c3c;
-      }
-      .direction-east {
-        background: #f1c40f;
-      }
-      .direction-west {
-        background: #9b59b6;
-      }
-
-      .congestion-info {
-        flex: 1;
-      }
-
-      .direction-name {
-        font-size: 16px;
-        font-weight: bold;
-        color: #2c3e50;
-        margin-bottom: 5px;
-      }
-
-      .congestion-status {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .status-indicator {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-      }
-
-      .level-low {
+      .control-btn.success {
         background: #2ecc71;
-        box-shadow: 0 0 8px rgba(46, 204, 113, 0.4);
       }
 
-      .level-medium {
-        background: #f1c40f;
-        box-shadow: 0 0 8px rgba(241, 196, 15, 0.4);
+      .control-btn.success:hover {
+        background: #27ae60;
       }
 
-      .level-high {
+      .control-btn.warning {
         background: #e74c3c;
-        box-shadow: 0 0 8px rgba(231, 76, 60, 0.4);
       }
 
-      .status-text {
-        font-size: 14px;
-        color: #7f8c8d;
-      }
-
-      .car-count {
-        font-size: 14px;
-        color: #95a5a6;
-        margin-top: 5px;
-      }
-
-      @keyframes pulse {
-        0% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.1);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
-
-      .level-high {
-        animation: pulse 2s infinite;
-      }
-
-      /* قسم الطوارئ */
-      .emergency-section {
-        background: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-      }
-
-      .emergency-section h3 {
-        color: #e74c3c;
-        margin-bottom: 15px;
-        font-size: 18px;
-        border-bottom: 2px solid rgba(231, 76, 60, 0.2);
-        padding-bottom: 10px;
-      }
-
-      .emergency-controls {
-        background: #fff3f3;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-      }
-
-      .emergency-options {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
-        margin-bottom: 20px;
-      }
-
-      .emergency-select {
-        padding: 10px;
-        border: 2px solid #ddd;
-        border-radius: 6px;
-        font-size: 14px;
-        color: #2c3e50;
-        background: white;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        width: 100%;
-      }
-
-      .emergency-select:hover {
-        border-color: #e74c3c;
-      }
-
-      .emergency-select:focus {
-        outline: none;
-        border-color: #e74c3c;
-        box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
-      }
-
-      .emergency-button {
-        background: #e74c3c;
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: bold;
-        width: 100%;
-        font-size: 16px;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-      }
-
-      .emergency-button:hover {
+      .control-btn.warning:hover {
         background: #c0392b;
-        transform: translateY(-1px);
       }
 
-      .emergency-button:active {
-        transform: translateY(1px);
+      .control-btn.active {
+        background: #27ae60;
       }
 
-      .emergency-button i {
-        font-size: 20px;
-      }
-
-      .emergency-status {
-        background: #f8f9fa;
-        padding: 15px;
-        border-radius: 6px;
-        margin-top: 15px;
+      .slider-control {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
+        flex-direction: column;
+        gap: 5px;
       }
 
-      .status-text {
+      .slider-control label {
+        font-size: 14px;
         color: #2c3e50;
-        font-weight: bold;
       }
 
-      .status-indicator {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-      }
-
-      .status-active {
-        background: #e74c3c;
-        animation: blink 1s infinite;
+      .slider-control input {
+        width: 100%;
       }
 
       /* زر التبديل */
@@ -417,126 +159,63 @@
         position: fixed;
         top: 20px;
         right: 20px;
-        background: #e74c3c;
+        padding: 10px 20px;
+        background: #3498db;
         color: white;
         border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
+        border-radius: 4px;
         cursor: pointer;
-        z-index: 999;
-        font-weight: bold;
-        transition: background 0.3s;
+        z-index: 1000;
+        transition: all 0.3s;
       }
 
       .toggle-panel:hover {
-        background: #c0392b;
+        background: #2980b9;
       }
 
+      .toggle-panel.hidden {
+        display: none;
+      }
+
+      /* تحسينات للأجهزة المحمولة */
       @media (max-width: 768px) {
-        .stats-panel {
-          grid-template-columns: 1fr 1fr;
+        .container {
+          align-items: flex-start;
+        }
+
+        .svg-container {
+          height: auto;
+          margin-top: -100px;
+          transform: scale(1.2);
+        }
+
+        svg {
+          max-height: none;
+          height: auto;
         }
 
         .control-panel {
           max-height: 70vh;
         }
+
+        .controls-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .control-btn {
+          padding: 6px 12px;
+          font-size: 14px;
+        }
       }
 
       @media (max-width: 480px) {
-        .stats-panel {
-          grid-template-columns: 1fr;
+        .container {
+          padding-top: 0;
         }
-      }
 
-      /* Emergency Alert Styles */
-      .emergency-alert {
-        position: fixed;
-        top: -100px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #e74c3c;
-        color: white;
-        padding: 15px 25px;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        transition: top 0.5s ease-in-out;
-      }
-
-      .alert-content {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-      }
-
-      .emergency-icon {
-        font-size: 24px;
-      }
-
-      .emergency-text {
-        font-size: 16px;
-        font-weight: bold;
-      }
-
-      .progress-bar {
-        width: 200px;
-        height: 6px;
-        background: rgba(255, 255, 255, 0.3);
-        border-radius: 3px;
-        overflow: hidden;
-      }
-
-      .progress {
-        height: 100%;
-        background: white;
-        transition: width 0.3s ease-in-out;
-      }
-
-      @keyframes blink {
-        0% {
-          opacity: 1;
+        .svg-container {
+          transform: scale(1.3);
         }
-        50% {
-          opacity: 0.5;
-        }
-        100% {
-          opacity: 1;
-        }
-      }
-
-      /* تحسين التمرير */
-      .control-panel::-webkit-scrollbar {
-        width: 8px;
-      }
-
-      .control-panel::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 4px;
-      }
-
-      .control-panel::-webkit-scrollbar-thumb {
-        background: #c0392b;
-        border-radius: 4px;
-      }
-
-      .control-panel::-webkit-scrollbar-thumb:hover {
-        background: #e74c3c;
-      }
-
-      /* تأثيرات إضافية */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(-10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .control-panel {
-        animation: fadeIn 0.5s ease-out;
       }
     </style>
   </head>
@@ -545,103 +224,59 @@
 
     <div class="control-panel">
       <div class="panel-header">
-        <button onclick="togglePanel()">اغلاق</button>
+        <button class="control-btn" onclick="togglePanel()">إغلاق</button>
       </div>
 
-      <!-- لوحة الإحصائيات -->
-      <div class="stats-section">
-        <h3>إحصائيات المرور</h3>
-        <div class="stats-panel">
-          <div class="stat-card">
-            <h4>متوسط وقت الانتظار:</h4>
-            <div class="stat-value" id="avgWaitTime">45s</div>
-          </div>
-          <div class="stat-card">
-            <h4>عدد السيارات:</h4>
-            <div class="stat-value" id="carCount">127</div>
-          </div>
-          <div class="stat-card">
-            <h4>مستوى الازدحام:</h4>
-            <div class="stat-value" id="congestionLevel">متوسط</div>
-          </div>
-          <div class="stat-card">
-            <h4>حالات الطوارئ النشطة:</h4>
-            <div class="stat-value" id="emergencyCount">0</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- قسم مستويات الازدحام -->
-      <div class="congestion-section">
-        <h3>مستويات الازدحام</h3>
-        <div class="congestion-grid">
-          <div class="congestion-card">
-            <div class="direction-icon direction-north">⬆️</div>
-            <div class="congestion-info">
-              <div class="direction-name">الطريق الشمالي</div>
-              <div class="congestion-status">
-                <div class="status-indicator level-low"></div>
-                <div class="status-text" id="north-status">منخفض</div>
-              </div>
-              <div class="car-count" id="north-congestion">25 سيارة</div>
+      <div class="controls-grid">
+        <div class="control-section">
+          <h3>التحكم في إشارات المرور</h3>
+          <div class="control-group">
+            <div class="control-row">
+              <button class="control-btn" onclick="cycleTrafficLight('north')">
+                الإشارة الشمالية
+              </button>
+              <button class="control-btn" onclick="cycleTrafficLight('south')">
+                الإشارة الجنوبية
+              </button>
             </div>
-          </div>
-          <div class="congestion-card">
-            <div class="direction-icon direction-south">⬇️</div>
-            <div class="congestion-info">
-              <div class="direction-name">الطريق الجنوبي</div>
-              <div class="congestion-status">
-                <div class="status-indicator level-medium"></div>
-                <div class="status-text" id="south-status">متوسط</div>
-              </div>
-              <div class="car-count" id="south-congestion">35 سيارة</div>
+            <div class="control-row">
+              <button class="control-btn" onclick="cycleTrafficLight('east')">
+                الإشارة الشرقية
+              </button>
+              <button class="control-btn" onclick="cycleTrafficLight('west')">
+                الإشارة الغربية
+              </button>
             </div>
-          </div>
-          <div class="congestion-card">
-            <div class="direction-icon direction-east">➡️</div>
-            <div class="congestion-info">
-              <div class="direction-name">الطريق الشرقي</div>
-              <div class="congestion-status">
-                <div class="status-indicator level-high"></div>
-                <div class="status-text" id="east-status">مرتفع</div>
-              </div>
-              <div class="car-count" id="east-congestion">42 سيارة</div>
-            </div>
-          </div>
-          <div class="congestion-card">
-            <div class="direction-icon direction-west">⬅️</div>
-            <div class="congestion-info">
-              <div class="direction-name">الطريق الغربي</div>
-              <div class="congestion-status">
-                <div class="status-indicator level-low"></div>
-                <div class="status-text" id="west-status">منخفض</div>
-              </div>
-              <div class="car-count" id="west-congestion">25 سيارة</div>
+            <div class="control-row">
+              <button class="control-btn warning" onclick="toggleAutomatic()">
+                تشغيل/إيقاف الوضع التلقائي
+              </button>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- قسم الطوارئ -->
-      <div class="emergency-section">
-        <h3>إدارة حالات الطوارئ</h3>
-        <div class="emergency-controls">
-          <div class="emergency-options">
-            <select id="emergencyType" class="emergency-select">
-              <option value="ambulance">سيارة إسعاف</option>
-              <option value="police">شرطة</option>
-              <option value="fire">إطفاء</option>
-            </select>
-            <select id="emergencyDirection" class="emergency-select">
-              <option value="north">شمال</option>
-              <option value="south">جنوب</option>
-              <option value="east">شرق</option>
-              <option value="west">غرب</option>
-            </select>
+        <div class="control-section">
+          <h3>إعدادات متقدمة</h3>
+          <div class="control-group">
+            <div class="slider-control">
+              <label>سرعة تغيير الإشارات</label>
+              <input
+                type="range"
+                min="1"
+                max="10"
+                value="5"
+                onchange="updateSpeed(this.value)"
+              />
+            </div>
+            <div class="control-row">
+              <button class="control-btn success" onclick="saveSettings()">
+                حفظ الإعدادات
+              </button>
+              <button class="control-btn warning" onclick="resetSettings()">
+                إعادة تعيين
+              </button>
+            </div>
           </div>
-          <button class="emergency-button" onclick="activateEmergency()">
-            تفعيل حالة طوارئ
-          </button>
         </div>
       </div>
     </div>
@@ -844,473 +479,107 @@
     <script>
       let isAutomatic = false;
       let automaticInterval;
-      let emergencyMode = false;
-      let congestionLevels = {
-        north: "low",
-        south: "medium",
-        east: "high",
-        west: "low",
-      };
+      let cycleSpeed = 5000;
 
-      let emergencyStats = {
-        active: false,
-        type: null, // 'ambulance', 'police', 'fire'
-        direction: null,
-        startTime: null,
-        duration: 20, // seconds
-        affectedRoads: [],
-        vehiclePosition: 0, // 0-100 progress
-        clearanceZone: 20, // percentage of road to clear
-      };
+      function toggleAutomatic() {
+        isAutomatic = !isAutomatic;
+        const button = event.target;
 
-      // إحصائيات المرور
-      let trafficStats = {
-        waitTime: 45,
-        carCount: 127,
-        emergencyCount: 0,
-        roads: {
-          north: { cars: 25, capacity: 50 },
-          south: { cars: 35, capacity: 50 },
-          east: { cars: 42, capacity: 50 },
-          west: { cars: 25, capacity: 50 },
-        },
-      };
-
-      function getEmergencyIcon(type) {
-        switch (type) {
-          case "ambulance":
-            return "🚑";
-          case "police":
-            return "🚓";
-          case "fire":
-            return "🚒";
-          default:
-            return "🚨";
+        if (isAutomatic) {
+          button.classList.add("active");
+          startAutomatic();
+        } else {
+          button.classList.remove("active");
+          stopAutomatic();
         }
       }
 
-      function activateEmergency() {
-        const type = document.getElementById("emergencyType").value;
-        const direction = document.getElementById("emergencyDirection").value;
+      function startAutomatic() {
+        automaticInterval = setInterval(() => {
+          cycleTrafficLight("north");
+          cycleTrafficLight("south");
+          setTimeout(() => {
+            cycleTrafficLight("east");
+            cycleTrafficLight("west");
+          }, cycleSpeed / 2);
+        }, cycleSpeed);
+      }
 
-        if (!emergencyStats.active) {
-          emergencyStats.active = true;
-          emergencyStats.type = type;
-          emergencyStats.direction = direction;
-          emergencyStats.startTime = new Date();
-          emergencyStats.vehiclePosition = 0;
-          emergencyMode = true;
-          trafficStats.emergencyCount++;
+      function stopAutomatic() {
+        clearInterval(automaticInterval);
+      }
 
-          // تحديد الطرق المتأثرة
-          determineAffectedRoads(direction);
-
-          // تفعيل الإنذار
-          activateEmergencyAlert(type, direction);
-
-          // بدء محاكاة حركة مركبة الطوارئ
-          startEmergencySimulation();
+      function updateSpeed(value) {
+        cycleSpeed = (11 - value) * 1000;
+        if (isAutomatic) {
+          stopAutomatic();
+          startAutomatic();
         }
       }
 
-      function determineAffectedRoads(primaryDirection) {
-        emergencyStats.affectedRoads = [];
-        const oppositeDirections = {
-          north: "south",
-          south: "north",
-          east: "west",
-          west: "east",
+      function cycleTrafficLight(direction) {
+        const lights = document.querySelectorAll(
+          `#traffic-light-${direction} .light`
+        );
+        const activeLight = document.querySelector(
+          `#traffic-light-${direction} .light.active`
+        );
+
+        activeLight.classList.remove("active");
+
+        if (activeLight.classList.contains("red")) {
+          lights[1].classList.add("active"); // yellow
+        } else if (activeLight.classList.contains("yellow")) {
+          lights[2].classList.add("active"); // green
+        } else {
+          lights[0].classList.add("active"); // red
+        }
+      }
+
+      function saveSettings() {
+        const settings = {
+          cycleSpeed,
+          isAutomatic,
         };
 
-        // إضافة الاتجاه الرئيسي والمعاكس له
-        emergencyStats.affectedRoads.push(primaryDirection);
-        emergencyStats.affectedRoads.push(oppositeDirections[primaryDirection]);
-
-        // تحديث إشارات المرور للطرق المتأثرة
-        updateTrafficLightsForEmergency();
+        localStorage.setItem("trafficSettings", JSON.stringify(settings));
+        alert("تم حفظ الإعدادات بنجاح");
       }
 
-      function updateTrafficLightsForEmergency() {
-        const directions = ["north", "south", "east", "west"];
-        directions.forEach((dir) => {
-          const isAffected = emergencyStats.affectedRoads.includes(dir);
-          const isMainDirection = dir === emergencyStats.direction;
+      function resetSettings() {
+        cycleSpeed = 5000;
+        document.querySelector('input[type="range"]').value = 5;
 
-          const redLight = document.getElementById(`${dir}-red`);
-          const yellowLight = document.getElementById(`${dir}-yellow`);
-          const greenLight = document.getElementById(`${dir}-green`);
-
-          if (redLight && yellowLight && greenLight) {
-            // إعادة تعيين جميع الألوان أولاً
-            redLight.style.fill = "#333";
-            yellowLight.style.fill = "#333";
-            greenLight.style.fill = "#333";
-
-            // إزالة أي تأثيرات وميض سابقة
-            redLight.style.animation = "";
-            yellowLight.style.animation = "";
-            greenLight.style.animation = "";
-
-            if (isMainDirection) {
-              // الطريق الرئيسي للطوارئ - أخضر
-              greenLight.style.fill = "green";
-              greenLight.style.animation = "blink 1s infinite";
-            } else if (isAffected) {
-              // الطرق المتأثرة - أحمر
-              redLight.style.fill = "red";
-              redLight.style.animation = "blink 1s infinite";
-            }
-          }
-        });
-      }
-
-      function activateEmergencyAlert(type, direction) {
-        const alertDiv = document.createElement("div");
-        alertDiv.className = "emergency-alert";
-        alertDiv.innerHTML = `
-                    <div class="alert-content">
-                        <span class="emergency-icon">${getEmergencyIcon(
-                          type
-                        )}</span>
-                        <span class="emergency-text">
-                            حالة طوارئ: ${
-                              type === "ambulance"
-                                ? "إسعاف"
-                                : type === "police"
-                                ? "شرطة"
-                                : "إطفاء"
-                            }
-                            في الاتجاه ${
-                              direction === "north"
-                                ? "الشمالي"
-                                : direction === "south"
-                                ? "الجنوبي"
-                                : direction === "east"
-                                ? "الشرقي"
-                                : "الغربي"
-                            }
-                        </span>
-                        <div class="progress-bar">
-                            <div class="progress" style="width: 0%"></div>
-                        </div>
-                    </div>
-                `;
-        document.body.appendChild(alertDiv);
-
-        // تحريك الإنذار من أعلى الشاشة
-        setTimeout(() => (alertDiv.style.top = "20px"), 100);
-      }
-
-      function startEmergencySimulation() {
-        const updateInterval = 200; // تحديث كل 200 مللي ثانية للحركة السلسة
-        const progressInterval = setInterval(() => {
-          if (emergencyStats.active) {
-            // زيادة نسبة التقدم بناءً على المدة الجديدة
-            emergencyStats.vehiclePosition +=
-              (100 * updateInterval) / (emergencyStats.duration * 1000);
-
-            // تحديث شريط التقدم
-            const progressBar = document.querySelector(
-              ".emergency-alert .progress"
-            );
-            if (progressBar) {
-              progressBar.style.width = `${Math.min(
-                100,
-                emergencyStats.vehiclePosition
-              )}%`;
-            }
-
-            // إخلاء المنطقة حول مركبة الطوارئ
-            clearEmergencyZone();
-
-            // التحقق من اكتمال المهمة
-            if (emergencyStats.vehiclePosition >= 100) {
-              deactivateEmergency();
-              clearInterval(progressInterval);
-            }
-          }
-        }, updateInterval);
-      }
-
-      function clearEmergencyZone() {
-        const mainRoad = trafficStats.roads[emergencyStats.direction];
-        if (mainRoad) {
-          // حساب المنطقة التي يجب إخلاؤها
-          const zoneStart = Math.max(
-            0,
-            emergencyStats.vehiclePosition - emergencyStats.clearanceZone / 2
-          );
-          const zoneEnd = Math.min(
-            100,
-            emergencyStats.vehiclePosition + emergencyStats.clearanceZone / 2
-          );
-
-          // تقليل عدد السيارات في المنطقة
-          const clearedCars = Math.floor(
-            mainRoad.cars * (emergencyStats.clearanceZone / 100)
-          );
-          mainRoad.cars = Math.max(0, mainRoad.cars - clearedCars);
-        }
-      }
-
-      function deactivateEmergency() {
-        emergencyStats.active = false;
-        emergencyMode = false;
-
-        // إزالة الإنذار بشكل متحرك
-        const alertDiv = document.querySelector(".emergency-alert");
-        if (alertDiv) {
-          alertDiv.style.top = "-100px";
-          setTimeout(() => alertDiv.remove(), 500);
+        if (isAutomatic) {
+          toggleAutomatic();
         }
 
-        // إعادة تعيين إشارات المرور
-        const directions = ["north", "south", "east", "west"];
-        directions.forEach((dir) => {
-          const lights = ["red", "yellow", "green"].map((color) =>
-            document.getElementById(`${dir}-${color}`)
-          );
-          lights.forEach((light) => {
-            if (light) light.style.animation = "";
-          });
-          updateTrafficLightByLevel(dir, congestionLevels[dir]);
-        });
-
-        // تحديث الإحصائيات
-        updateStats();
+        localStorage.removeItem("trafficSettings");
+        alert("تم إعادة تعيين الإعدادات");
       }
 
-      function updateCongestion() {
-        for (const direction in congestionLevels) {
-          const element = document.getElementById(`${direction}-congestion`);
-          if (element) {
-            // تحديث مستوى الازدحام بناءً على عدد السيارات
-            const roadStats = trafficStats.roads[direction];
-            const congestionPercentage =
-              (roadStats.cars / roadStats.capacity) * 100;
-
-            let text = "منخفض";
-            let levelClass = "level-low";
-
-            if (congestionPercentage >= 80) {
-              text = "مرتفع";
-              levelClass = "level-high";
-              congestionLevels[direction] = "high";
-            } else if (congestionPercentage >= 50) {
-              text = "متوسط";
-              levelClass = "level-medium";
-              congestionLevels[direction] = "medium";
-            } else {
-              congestionLevels[direction] = "low";
-            }
-
-            // تحديث النص ليشمل عدد السيارات
-            element.textContent = `${text} (${roadStats.cars} سيارة)`;
-            const indicator =
-              element.parentElement.querySelector(".congestion-level");
-            if (indicator) {
-              indicator.className = `congestion-level ${levelClass}`;
-            }
-
-            // تحديث لون إشارة المرور
-            updateTrafficLightByLevel(direction, congestionLevels[direction]);
-          }
-        }
-      }
-
-      function updateTrafficLightByLevel(direction, level) {
-        if (emergencyMode) return; // لا تغير الألوان في حالة الطوارئ
-
-        const redLight = document.getElementById(`${direction}-red`);
-        const yellowLight = document.getElementById(`${direction}-yellow`);
-        const greenLight = document.getElementById(`${direction}-green`);
-
-        if (redLight && yellowLight && greenLight) {
-          // إعادة تعيين جميع الألوان
-          redLight.style.fill = "#333";
-          yellowLight.style.fill = "#333";
-          greenLight.style.fill = "#333";
-
-          // تعيين اللون بناءً على مستوى الازدحام
-          switch (level) {
-            case "low":
-              // أخضر في حالة الازدحام المنخفض
-              greenLight.style.fill = "green";
-              break;
-            case "medium":
-              // أصفر في حالة الازدحام المتوسط
-              yellowLight.style.fill = "yellow";
-              break;
-            case "high":
-              // أحمر في حالة الازدحام المرتفع
-              redLight.style.fill = "red";
-              break;
-          }
-        }
-      }
-
-      function updateStats() {
-        document.getElementById(
-          "avgWaitTime"
-        ).textContent = `${trafficStats.waitTime}s`;
-        document.getElementById("carCount").textContent = trafficStats.carCount;
-        document.getElementById("emergencyCount").textContent =
-          trafficStats.emergencyCount;
-
-        // تحديث مستوى الازدحام العام
-        let congestionText = "منخفض";
-        const highCongestionRoads = Object.values(trafficStats.roads).filter(
-          (road) => road.cars / road.capacity >= 0.8
-        ).length;
-
-        if (highCongestionRoads >= 2) {
-          congestionText = "مرتفع";
-        } else if (highCongestionRoads === 1) {
-          congestionText = "متوسط";
-        }
-        document.getElementById("congestionLevel").textContent = congestionText;
-      }
-
-      function resetTrafficLights() {
-        const directions = ["north", "south", "east", "west"];
-        directions.forEach((dir) => {
-          const redLight = document.getElementById(`${dir}-red`);
-          const yellowLight = document.getElementById(`${dir}-yellow`);
-          const greenLight = document.getElementById(`${dir}-green`);
-
-          if (redLight && yellowLight && greenLight) {
-            redLight.style.fill = "#ff0000";
-            yellowLight.style.fill = "#333";
-            greenLight.style.fill = "#333";
-          }
-        });
-      }
-
-      // تحديث الإحصائيات كل 5 ثواني
-      setInterval(() => {
-        if (!emergencyMode) {
-          // تحديث وقت الانتظار
-          trafficStats.waitTime += Math.floor(Math.random() * 5) - 2;
-          if (trafficStats.waitTime < 0) trafficStats.waitTime = 0;
-
-          // تحديث عدد السيارات في كل طريق
-          updateRoadStats();
-
-          updateStats();
-          updateCongestion();
-        }
-      }, 5000);
-
-      function updateRoadStats() {
-        if (!emergencyMode) {
-          // تحديث عدد السيارات في كل طريق
-          for (const direction in trafficStats.roads) {
-            const road = trafficStats.roads[direction];
-
-            // إضافة أو إزالة سيارات بشكل عشوائي
-            const change = Math.floor(Math.random() * 5) - 2;
-            road.cars += change;
-
-            // التأكد من أن العدد في النطاق المسموح
-            if (road.cars < 0) road.cars = 0;
-            if (road.cars > road.capacity) road.cars = road.capacity;
-          }
-
-          // تحديث إجمالي عدد السيارات
-          trafficStats.carCount = Object.values(trafficStats.roads).reduce(
-            (sum, road) => sum + road.cars,
-            0
-          );
-        }
-      }
-
-      // دالة تحديث مستوى الازدحام
-      function updateCongestionLevel(direction, count) {
-        const statusElement = document.getElementById(`${direction}-status`);
-        const congestionElement = document.getElementById(
-          `${direction}-congestion`
-        );
-        const card = statusElement.closest(".congestion-card");
-        const indicator = card.querySelector(".status-indicator");
-
-        let level = "منخفض";
-        let levelClass = "level-low";
-        let trafficLevel = "low";
-
-        if (count > 40) {
-          level = "مرتفع";
-          levelClass = "level-high";
-          trafficLevel = "high";
-        } else if (count > 30) {
-          level = "متوسط";
-          levelClass = "level-medium";
-          trafficLevel = "medium";
-        }
-
-        // تحديث النص والمؤشر
-        statusElement.textContent = level;
-        congestionElement.textContent = count + " سيارة";
-
-        // تحديث لون المؤشر
-        indicator.className = "status-indicator " + levelClass;
-
-        // تحديث إشارة المرور
-        updateTrafficLightByLevel(direction, trafficLevel);
-      }
-
-      // تحديث مستويات الازدحام كل 5 ثواني
-      setInterval(() => {
-        const directions = ["north", "south", "east", "west"];
-        directions.forEach((direction) => {
-          const count = Math.floor(Math.random() * 50) + 10; // عدد عشوائي بين 10 و 60
-          updateCongestionLevel(direction, count);
-        });
-      }, 5000);
-
-      // تحميل الإعدادات عند بدء التشغيل
-      window.addEventListener("load", () => {
-        updateStats();
-        resetTrafficLights();
-        // تحديث مستويات الازدحام الأولية
-        const directions = ["north", "south", "east", "west"];
-        directions.forEach((direction) => {
-          const count = Math.floor(Math.random() * 50) + 10;
-          updateCongestionLevel(direction, count);
-        });
-      });
-
-      // تحديث أنماط CSS للأزرار
-      document.addEventListener("DOMContentLoaded", function () {
+      function togglePanel() {
         const panel = document.querySelector(".control-panel");
         const toggleButton = document.querySelector(".toggle-panel");
 
-        // تعيين الأنماط الأولية
-        panel.style.top = "-100%";
-        toggleButton.style.display = "block";
-
-        // إضافة أنماط للزر
-        toggleButton.style.position = "fixed";
-        toggleButton.style.top = "20px";
-        toggleButton.style.right = "20px";
-        toggleButton.style.zIndex = "999";
-        toggleButton.style.padding = "10px 20px";
-        toggleButton.style.backgroundColor = "#3498db";
-        toggleButton.style.color = "white";
-        toggleButton.style.border = "none";
-        toggleButton.style.borderRadius = "5px";
-        toggleButton.style.cursor = "pointer";
-        toggleButton.style.fontWeight = "bold";
-      });
-
-      // إضافة دالة togglePanel
-      function togglePanel() {
-        const panel = document.querySelector(".control-panel");
-        if (panel.style.top === "0px") {
-          panel.style.top = "-100%";
-        } else {
-          panel.style.top = "0px";
-        }
+        panel.classList.toggle("open");
+        toggleButton.classList.toggle("hidden");
       }
+
+      // تحميل الإعدادات عند بدء التشغيل
+      window.addEventListener("load", () => {
+        const savedSettings = localStorage.getItem("trafficSettings");
+        if (savedSettings) {
+          const settings = JSON.parse(savedSettings);
+          cycleSpeed = settings.cycleSpeed;
+          document.querySelector('input[type="range"]').value =
+            11 - cycleSpeed / 1000;
+
+          if (settings.isAutomatic) {
+            toggleAutomatic();
+          }
+        }
+      });
     </script>
   </body>
 </html>
